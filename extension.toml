@@ -1,0 +1,15 @@
+id = "vhdl"
+name = "VHDL"
+description = "VHDL support."
+version = "0.0.1"
+schema_version = 1
+authors = ["Giulio Girardi <giulio.girardi@protechgroup.it>"]
+repository = "https://github.com/rapgenic/zed-vhdl"
+
+[language_servers.vhdl]
+name = "VHDL"
+language = "VHDL"
+
+[grammars.vhdl]
+repository = "https://github.com/alemuller/tree-sitter-vhdl"
+commit = "a3b2d84990527c7f8f4ae219c332c00c33d2d8e5"
