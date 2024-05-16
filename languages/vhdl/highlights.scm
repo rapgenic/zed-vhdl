@@ -75,14 +75,14 @@
 ; (operator: (_) @operator)
 (function_body designator: (operator_symbol) @operator)
 (function_body at_end: (operator_symbol) @operator)
-(function_declaration designator: (operator_symbol) @function)
+(function_declaration designator: (operator_symbol) @operator)
 [
     "not" "and" "or" "nand" "nor" "xor" "xnor"
     "=" "/=" "<" "<=" ">" ">="
     "?=" "?/=" "?>" "?>=" "?<" "?<="
     "sll" "srl" "sla" "sra" "rol" "ror"
     "abs" "+" "-" "*" "/" "mod" "rem" "**"
-    "&"
+    "&" "??"
     ":=" "=>"
 ] @operator
 
