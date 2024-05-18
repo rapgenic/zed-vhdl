@@ -2,7 +2,7 @@ name = "VHDL"
 grammar = "vhdl"
 path_suffixes = ["vhd", "vhdl"]
 line_comments = ["--"]
-autoclose_before = ";:.,=}])>"
+autoclose_before = ";:,=}])&>"
 brackets = [
     { start = "(", end = ")", close = true, newline = true },
     { start = "[", end = "]", close = true, newline = true },
