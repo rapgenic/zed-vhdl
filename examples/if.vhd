@@ -36,4 +36,16 @@ package body if_example is
 
 	    end if;
     end function f;
+
+    function g return Integer is
+    begin
+    end function g;
+end;
+
+architecture c of d is
+begin
+
+test: process(all) begin
+ciao
+end process;
 end;
