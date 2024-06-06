@@ -34,3 +34,4 @@
 ("architecture" @open "architecture" @close)
 ("process" @open "process" @close)
 ("case" @open "case" @close)
+("record" @open "record" @close)

@@ -1,5 +1,7 @@
+use lazy_static::lazy_static;
+use regex::Regex;
 use std::fs;
-use zed_extension_api::{self as zed, Result};
+use zed_extension_api::{self as zed, CodeLabel, CodeLabelSpan, Result};
 
 // This code was adapted from the csharp extension that is built into Zed.
 // That code carried an Apache 2.0 license.
@@ -101,11 +103,107 @@ impl zed::Extension for VHDLExtension {
         language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        println!("HelloOOoooO!");
+
         Ok(zed::Command {
             command: self.language_server_binary_path(language_server_id, worktree)?,
             args: Default::default(),
             env: Default::default(),
         })
     }
+
+    fn label_for_completion(
+        &self,
+        _language_server_id: &zed_extension_api::LanguageServerId,
+        completion: zed::lsp::Completion,
+    ) -> Option<zed_extension_api::CodeLabel> {
+        lazy_static! {
+            static ref SIGNAL_CONSTANT_VARIABLE_REGEX: Regex = Regex::new(
+                r"^(?<kind>\w+) '(?<identifier>[\w\d_]+|\\.*\\)'( : (?<direction>\w+))?$"
+            )
+            .unwrap();
+        }
+
+        match completion.kind? {
+            zed_extension_api::lsp::CompletionKind::Event
+            | zed_extension_api::lsp::CompletionKind::Constant => {
+                let detail = completion.detail.as_ref()?;
+                let captures = SIGNAL_CONSTANT_VARIABLE_REGEX.captures(&detail)?;
+                let kind = &captures["kind"];
+                let identifier = &captures["identifier"];
+
+                match kind {
+                    "signal" | "constant" => {
+                        return label_for_signal_constant_variable(kind, identifier)
+                    }
+                    "port" => return label_for_port(kind, identifier, &captures["direction"]),
+                    _ => None,
+                }
+            }
+            _ => None,
+        }
+    }
 }
+
+fn label_for_signal_constant_variable(kind: &str, identifier: &str) -> Option<CodeLabel> {
+    let pre = "architecture A of B is\n";
+    let space = " ";
+    let colon = ": ";
+    let post = "T;\nbegin end architecture;";
+
+    let code = format!("{pre}{kind}{space}{identifier}{colon}{post}");
+
+    Some(CodeLabel {
+        code,
+        spans: vec![
+            CodeLabelSpan::code_range({
+                let start = pre.len() + kind.len() + space.len();
+                start..start + identifier.len()
+            }),
+            CodeLabelSpan::code_range({
+                let start = pre.len() + kind.len() + space.len() + identifier.len();
+                start..start + colon.len()
+            }),
+            CodeLabelSpan::code_range({
+                let start = pre.len();
+                start..start + kind.len()
+            }),
+        ],
+        filter_range: (0..identifier.len()).into(),
+    })
+}
+
+fn label_for_port(kind: &str, identifier: &str, direction: &str) -> Option<CodeLabel> {
+    let pre = "entity A is ";
+    let paren = "(";
+    let colon = ": ";
+    let post = " T) end entity";
+
+    let code = format!("{pre}{kind}{paren}{identifier}{colon}{direction}{post}");
+
+    Some(CodeLabel {
+        code,
+        spans: vec![
+            CodeLabelSpan::code_range({
+                let start = pre.len() + kind.len() + paren.len();
+                start..start + identifier.len()
+            }),
+            CodeLabelSpan::code_range({
+                let start = pre.len() + kind.len() + paren.len() + identifier.len();
+                start..start + colon.len()
+            }),
+            CodeLabelSpan::code_range({
+                let start = pre.len();
+                start..start + kind.len()
+            }),
+            CodeLabelSpan::literal(" ", None),
+            CodeLabelSpan::code_range({
+                let start = pre.len() + kind.len() + paren.len() + identifier.len() + colon.len();
+                start..start + direction.len()
+            }),
+        ],
+        filter_range: (0..identifier.len()).into(),
+    })
+}
+
 zed::register_extension!(VHDLExtension);
