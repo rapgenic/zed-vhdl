@@ -84,6 +84,8 @@ impl VHDLExtension {
                     fs::remove_dir_all(&entry.path()).ok();
                 }
             }
+
+            zed::make_file_executable(&binary_path)?;
         }
 
         self.cached_binary_path = Some(binary_path.clone());
