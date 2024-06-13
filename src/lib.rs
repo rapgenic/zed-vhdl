@@ -103,8 +103,6 @@ impl zed::Extension for VHDLExtension {
         language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        println!("HelloOOoooO!");
-
         Ok(zed::Command {
             command: self.language_server_binary_path(language_server_id, worktree)?,
             args: Default::default(),
