@@ -35,7 +35,7 @@
 
 (primary_unit_declaration name: (_) @name) @item
 (secondary_unit_declaration name: (_) @name) @item
-(element_declaration (identifier_list (identifier) @name)) @item
+(element_declaration (identifier_list (identifier) @name @item))
 (incomplete_type_declaration name: (_) @name) @item
 
 (full_type_declaration
@@ -50,29 +50,29 @@
 
 (constant_declaration
     "constant" @context
-    (identifier_list (identifier) @name)
-) @item
+    (identifier_list (identifier) @name @item)
+)
 
 (signal_declaration
     "signal" @context
-    (identifier_list (identifier) @name)
-) @item
+    (identifier_list (identifier) @name @item)
+)
 
 (variable_declaration
     "variable" @context
-    (identifier_list (identifier) @name)
-) @item
+    (identifier_list (identifier) @name @item)
+)
 
 (shared_variable_declaration
     "shared" @context
     "variable" @context
-    (identifier_list (identifier) @name)
-) @item
+    (identifier_list (identifier) @name @item)
+)
 
 (file_declaration
     "file" @context
-    (identifier_list (identifier) @name)
-) @item
+    (identifier_list (identifier) @name @item)
+)
 
 (alias_declaration
     "alias" @context
@@ -109,8 +109,8 @@
 (architecture_body
     "architecture" @context
     name: (_) @name
-    "of" @context.extra
-    entity: (_) @context.extra
+    "of" @context
+    entity: (_) @context
 ) @item
 
 (package_body
