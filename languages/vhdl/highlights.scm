@@ -125,7 +125,9 @@
 ; Comments
 (comment) @comment
 
-((simple_name) @constant.builtin (#any-of? @constant.builtin "true" "false" "now"))
+((simple_name) @constant.builtin
+	(#match? @constant.builtin "^(([tT][rR][uU][eE])|([fF][aA][lL][sS][eE])|([nN][oO][wW]))$")
+)
 
 (severity_expression) @constant.builtin
 
