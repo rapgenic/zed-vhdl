@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::{fmt::format, fs};
+use std::fs;
 use zed_extension_api::{self as zed, CodeLabel, CodeLabelSpan, Result};
 
 // This code was adapted from the csharp extension that is built into Zed.
