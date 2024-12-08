@@ -5,6 +5,7 @@ version = "0.0.1"
 schema_version = 1
 authors = ["Giulio Girardi <giulio.girardi@protechgroup.it>"]
 repository = "https://github.com/rapgenic/zed-vhdl"
+snippets = "snippets.json"
 
 [language_servers.vhdl_ls]
 name = "VHDL LS"
