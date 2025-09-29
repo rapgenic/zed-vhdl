@@ -15,7 +15,7 @@
 	"Architecture": {
 		"prefix": "architecture",
 		"body": [
-			"architecture ${1:rtl} of ${2:$TM_FILENAME_BASE} is",
+			"architecture ${1:rtl} of ${2:<name>} is",
 			"",
 			"begin",
 			"",
@@ -95,7 +95,7 @@
 	"Component Declaration": {
 		"prefix": "componentdec",
 		"body": [
-			"component ${1:$TM_FILENAME_BASE} is",
+			"component ${1:<name>} is",
 			"\tport (",
 			"\t\t${2:clk   : in std_logic;}",
 			"\t\t${3:reset : in std_logic;}",
@@ -182,7 +182,7 @@
 	"Entity": {
 		"prefix": "entity",
 		"body": [
-			"entity ${1:$TM_FILENAME_BASE} is",
+			"entity ${1:<name>} is",
 			"\tport (",
 			"\t\t${2:clk   : in std_logic;}",
 			"\t\t${3:reset : in std_logic;}",
@@ -195,7 +195,7 @@
 	"Entity and Architecture": {
 		"prefix": "entarch",
 		"body": [
-			"entity ${1:$TM_FILENAME_BASE} is",
+			"entity ${1:<name>} is",
 			"\tport (",
 			"\t\t${2:clk   : in std_logic;}",
 			"\t\t${3:reset : in std_logic;}",
@@ -329,16 +329,12 @@
 	},
 	"Package": {
 		"prefix": "pack",
-		"body": ["package ${1:$TM_FILENAME_BASE} is", "\t$0", "end package;"],
+		"body": ["package ${1:<name>} is", "\t$0", "end package;"],
 		"description": "package interface"
 	},
 	"Package Body": {
 		"prefix": "packbody",
-		"body": [
-			"package body ${1:$TM_FILENAME_BASE} is",
-			"\t$0",
-			"end package body;"
-		],
+		"body": ["package body ${1:<name>} is", "\t$0", "end package body;"],
 		"description": "package body interface"
 	},
 	"Port": {

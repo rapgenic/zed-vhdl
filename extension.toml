@@ -1,7 +1,7 @@
 id = "vhdl"
 name = "VHDL"
 description = "VHDL support."
-version = "0.0.1"
+version = "0.0.2"
 schema_version = 1
 authors = ["Giulio Girardi <giulio.girardi@protechgroup.it>"]
 repository = "https://github.com/rapgenic/zed-vhdl"

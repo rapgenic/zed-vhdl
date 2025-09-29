@@ -1,6 +1,6 @@
 [package]
 name = "zed-vhdl"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 publish = false
 
@@ -10,4 +10,4 @@ crate-type = ["cdylib"]
 [dependencies]
 lazy_static = "1.4.0"
 regex = "1.10.4"
-zed_extension_api = "0.0.6"
+zed_extension_api = "0.1.0"
