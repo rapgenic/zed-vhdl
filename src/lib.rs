@@ -69,19 +69,27 @@ impl VHDLExtension {
                 &zed::LanguageServerInstallationStatus::Downloading,
             );
 
-            zed::download_file(
+            let download_result = zed::download_file(
                 &asset.download_url,
                 &version_dir,
                 zed::DownloadedFileType::Zip,
-            )
-            .map_err(|e| format!("failed to download file: {e}"))?;
+            );
 
-            let entries =
-                fs::read_dir(".").map_err(|e| format!("failed to list working directory {e}"))?;
-            for entry in entries {
-                let entry = entry.map_err(|e| format!("failed to load directory entry {e}"))?;
-                if entry.file_name().to_str() != Some(&version_dir) {
-                    fs::remove_dir_all(&entry.path()).ok();
+            if let Err(e) = download_result {
+                // Another workspace may have downloaded the binary concurrently.
+                // If the binary now exists, use it instead of failing.
+                if !fs::metadata(&binary_path).map_or(false, |stat| stat.is_file()) {
+                    return Err(format!("failed to download file: {e}"));
+                }
+            } else {
+                let entries = fs::read_dir(".")
+                    .map_err(|e| format!("failed to list working directory {e}"))?;
+                for entry in entries {
+                    let entry =
+                        entry.map_err(|e| format!("failed to load directory entry {e}"))?;
+                    if entry.file_name().to_str() != Some(&version_dir) {
+                        fs::remove_dir_all(&entry.path()).ok();
+                    }
                 }
             }
 
